@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float _moveSpeed;
     public float WalkSpeed;
     public float SprintSpeed;
+    public float WallRunSpeed;
 
     public float GroundDrag;
 
@@ -48,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
     public MovementState State;
 
+    public bool WallRunning;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -62,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
+        Debug.Log(Grounded());
 
         if (Grounded())
             _rb.drag = GroundDrag;
@@ -84,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(JumpKey) && _readyToJump && Grounded())
+        if (Input.GetKey(JumpKey) && _readyToJump && Grounded() && !WallRunning)
         {
             _readyToJump = false;
 
@@ -107,6 +111,12 @@ public class PlayerMovement : MonoBehaviour
 
     void StateHandler()
     {
+        if (WallRunning)
+        {
+            State = MovementState.WallRunning;
+            _moveSpeed = WallRunSpeed;
+        }
+
         if(Input.GetKey(CrouchKey) && Grounded())
         {
             State = MovementState.Crouching;
@@ -149,7 +159,8 @@ public class PlayerMovement : MonoBehaviour
         else if (!Grounded())
             _rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f * AirMultiplier, ForceMode.Force);
 
-        _rb.useGravity = !OnSlope();
+        if(!WallRunning)
+            _rb.useGravity = !OnSlope();
     }
 
     void SpeedControl()

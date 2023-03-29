@@ -7,5 +7,6 @@ public enum MovementState
     Walking,
     Sprinting,
     Air,
-    Crouching
+    Crouching,
+    WallRunning
 }

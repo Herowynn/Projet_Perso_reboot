@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum MovementState
 {
-    WALKING,
-    SPRINTING,
-    AIR,
-    CROUCHING
+    Walking,
+    Sprinting,
+    Air,
+    Crouching
 }

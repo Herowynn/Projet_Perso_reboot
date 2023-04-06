@@ -65,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
-        Debug.Log(Grounded());
 
         if (Grounded())
             _rb.drag = GroundDrag;

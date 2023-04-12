@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wallrunning : MonoBehaviour
 {
-    [Header("wallrunning")]
+    [Header("Wall Run")]
     public LayerMask Wall;
     public LayerMask Ground;
     public float WallRunForce;
@@ -13,6 +13,7 @@ public class Wallrunning : MonoBehaviour
     public float WallClimbSpeed;
     public float MaxWallRunTime;
     float _wallRunTimer;
+    [SerializeField] bool _canReWallRun;
 
     [Header("Input")]
     public KeyCode JumpKey = KeyCode.Space;
@@ -32,9 +33,9 @@ public class Wallrunning : MonoBehaviour
     bool _wallRight;
 
     [Header("Exiting")]
-    bool _exitingWall;
     public float ExitWallTime;
     float _exitWallTimer;
+    bool _exitingWall;
 
     [Header("Gravity")]
     public bool UseGravity;
@@ -48,6 +49,7 @@ public class Wallrunning : MonoBehaviour
 
     private void Start()
     {
+        _canReWallRun = true;
         _pm = GetComponent<PlayerMovement>();
         _rb = GetComponent<Rigidbody>();
     }
@@ -56,6 +58,8 @@ public class Wallrunning : MonoBehaviour
     {
         CheckForWalls();
         StateMachine();
+        if (IsGrounded())
+            _canReWallRun = true;
     }
 
     private void FixedUpdate()
@@ -70,9 +74,9 @@ public class Wallrunning : MonoBehaviour
         _wallLeft = Physics.Raycast(transform.position, -Orientation.right, out _leftWallHit, WallCheckDistance, Wall);
     }
 
-    bool AboveGround()
+    bool IsGrounded()
     {
-        return !Physics.Raycast(transform.position, Vector3.down, MinJumpHeight, Ground);
+        return Physics.Raycast(transform.position, Vector3.down, MinJumpHeight, Ground);
     }
 
     void StateMachine()
@@ -83,7 +87,7 @@ public class Wallrunning : MonoBehaviour
         _upwardsRunning = Input.GetKey(UpwardsRunKey);
         _downwardsRunning = Input.GetKey(DownwardsRunKey);
 
-        if((_wallLeft || _wallRight) && _verticalInput > 0 && AboveGround() && !_exitingWall)
+        if((_wallLeft || _wallRight) && _verticalInput > 0 && !IsGrounded() && !_exitingWall && _canReWallRun)
         {
             if(!_pm.WallRunning)
                 StartWallRun();
@@ -95,6 +99,8 @@ public class Wallrunning : MonoBehaviour
             {
                 _exitingWall = true;
                 _exitWallTimer = ExitWallTime;
+                _canReWallRun = false;
+                StartCoroutine(WaitBeforeReWallRun());
             }
 
 
@@ -119,6 +125,12 @@ public class Wallrunning : MonoBehaviour
             if(_pm.WallRunning)
                 StopWallRun();
         }
+    }
+
+    IEnumerator WaitBeforeReWallRun()
+    {
+        yield return new WaitForSeconds(5f);
+        _canReWallRun = true;
     }
 
     void StartWallRun()

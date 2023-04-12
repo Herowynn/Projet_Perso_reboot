@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
         NbRespawnUI.text = "Respawn Count : \n" + NbRespawn.ToString();
     }
 
+    private void Start()
+    {
+        Player.transform.position = StartPoint.position;
+    }
+
     private void Update()
     {
         if (TimeRunning)

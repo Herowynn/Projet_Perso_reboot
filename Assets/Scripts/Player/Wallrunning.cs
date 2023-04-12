@@ -100,7 +100,6 @@ public class Wallrunning : MonoBehaviour
                 _exitingWall = true;
                 _exitWallTimer = ExitWallTime;
                 _canReWallRun = false;
-                StartCoroutine(WaitBeforeReWallRun());
             }
 
 
@@ -125,12 +124,6 @@ public class Wallrunning : MonoBehaviour
             if(_pm.WallRunning)
                 StopWallRun();
         }
-    }
-
-    IEnumerator WaitBeforeReWallRun()
-    {
-        yield return new WaitForSeconds(5f);
-        _canReWallRun = true;
     }
 
     void StartWallRun()

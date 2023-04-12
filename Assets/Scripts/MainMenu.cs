@@ -14,8 +14,8 @@ public class MainMenu : MonoBehaviour
         LevelSelection.SetActive(true);
     }
 
-    public void LaunchGame()
+    public void LaunchGame(int levelId)
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(levelId);
     }
 }

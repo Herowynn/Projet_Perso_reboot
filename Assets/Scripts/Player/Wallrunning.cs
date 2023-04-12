@@ -6,14 +6,13 @@ public class Wallrunning : MonoBehaviour
 {
     [Header("Wall Run")]
     public LayerMask Wall;
-    public LayerMask Ground;
     public float WallRunForce;
     public float WallJumpUpForce;
     public float WallJumpSideForce;
     public float WallClimbSpeed;
     public float MaxWallRunTime;
     float _wallRunTimer;
-    [SerializeField] bool _canReWallRun;
+    bool _canReWallRun;
 
     [Header("Input")]
     public KeyCode JumpKey = KeyCode.Space;
@@ -26,7 +25,6 @@ public class Wallrunning : MonoBehaviour
 
     [Header("Detection")]
     public float WallCheckDistance;
-    public float MinJumpHeight;
     RaycastHit _leftWallHit;
     RaycastHit _rightWallHit;
     bool _wallLeft;

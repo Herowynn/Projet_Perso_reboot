@@ -37,7 +37,7 @@ public class Sliding : MonoBehaviour
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(SlideKey) && (_horizontalInput != 0 || _verticalInput != 0) && GetComponentInParent<PlayerMovement>().Grounded())
+        if (Input.GetKeyDown(SlideKey) && Input.GetKey(GetComponentInParent<PlayerMovement>().SprintKey) && (_horizontalInput != 0 || _verticalInput != 0) && GetComponentInParent<PlayerMovement>().Grounded())
             StartSlide();
 
         else if (Input.GetKeyUp(SlideKey) && _sliding)

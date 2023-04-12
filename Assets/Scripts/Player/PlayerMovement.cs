@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
     public float WalkSpeed;
     public float SprintSpeed;
     public float WallRunSpeed;
-
     public float GroundDrag;
 
     [Header("Jump")]
@@ -30,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode CrouchKey = KeyCode.LeftControl;
 
     [Header("Ground Check")]
-    public float playerHeight;
+    float _playerHeight;
     public LayerMask WhatIsGround;
 
     [Header("Slope Handling")]
@@ -58,10 +57,13 @@ public class PlayerMovement : MonoBehaviour
         _readyToJump = true;
 
         _startYScale = transform.localScale.y;
+
+        _playerHeight = GetComponentInChildren<MeshRenderer>().bounds.size.y;
     }
 
     private void Update()
     {
+        Debug.Log(Grounded());
         MyInput();
         SpeedControl();
         StateHandler();
@@ -74,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool Grounded()
     {
-        return Physics.Raycast(transform.position, Vector3.down, playerHeight * .5f + .2f, WhatIsGround);
+        return Physics.Raycast(transform.position, Vector3.down, _playerHeight * .5f + .2f, WhatIsGround);
     }
 
     private void FixedUpdate()
@@ -96,16 +98,26 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), JumpColldown);
         }
 
-        if (Input.GetKeyDown(CrouchKey) && Grounded())
+        else if (Input.GetKeyDown(CrouchKey))
         {
-            transform.localScale = new Vector3(transform.localScale.x, CrouchYScale, transform.localScale.z);
-            _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            if(WallRunning == false)
+            {
+                _readyToJump = false;
+                transform.localScale = new Vector3(transform.localScale.x, CrouchYScale, transform.localScale.z);
+                _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            }
         }
 
-        if(Input.GetKeyUp(CrouchKey))
+        else if(Input.GetKeyUp(CrouchKey) && CanUncrouch())
         {
+            _readyToJump = true;
             transform.localScale = new Vector3(transform.localScale.x, _startYScale, transform.localScale.z);
         }
+    }
+
+    bool CanUncrouch()
+    {
+        return !Physics.Raycast(transform.position, Vector3.up, _playerHeight * .5f + .2f);
     }
 
     void StateHandler()
@@ -116,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
             _moveSpeed = WallRunSpeed;
         }
 
-        if(Input.GetKey(CrouchKey) && Grounded())
+        else if(Input.GetKey(CrouchKey) && Grounded())
         {
             State = MovementState.Crouching;
             _moveSpeed = CrouchSpeed;
@@ -200,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool OnSlope()
     {
-        if(Physics.Raycast(transform.position, Vector3.down, out _slopeHit, playerHeight *.5f + .3f))
+        if(Physics.Raycast(transform.position, Vector3.down, out _slopeHit, _playerHeight *.5f + .3f))
         {
             float angle = Vector3.Angle(Vector3.up, _slopeHit.normal);
             return angle < MaxSloapAngle && angle != 0;

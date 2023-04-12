@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
 
             Timer.text = FormatTime(_time);
         }
+
+        else
+        {
+            Debug.Log("Bravo ! Tu as gagné en " + FormatTime(_time));
+        }
     }
 
     public void UpdateNbRespawns(bool reload)

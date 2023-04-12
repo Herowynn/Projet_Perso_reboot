@@ -209,7 +209,6 @@ MonoBehaviour:
   JumpKey: 32
   SprintKey: 304
   CrouchKey: 306
-  playerHeight: 2
   WhatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -258,6 +257,7 @@ MonoBehaviour:
   WallJumpSideForce: 12
   WallClimbSpeed: 3
   MaxWallRunTime: 0.7
+  _canReWallRun: 0
   JumpKey: 32
   UpwardsRunKey: 304
   DownwardsRunKey: 306

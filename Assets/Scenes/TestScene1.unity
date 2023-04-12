@@ -1868,7 +1868,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-36750
+  m_Name: pb_Mesh25096
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2477,7 +2477,7 @@ Transform:
   m_GameObject: {fileID: 906226519}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 81.16, y: 0.18, z: 8.85}
-  m_LocalScale: {x: 0.2, y: 5, z: 100}
+  m_LocalScale: {x: 0.2, y: 20, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1211177128}
@@ -3815,7 +3815,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-93752
+  m_Name: pb_Mesh24978
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6220,9 +6220,17 @@ PrefabInstance:
       propertyPath: Cam
       value: 
       objectReference: {fileID: 963194229}
+    - target: {fileID: 2637862705757743663, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
+      propertyPath: MaxWallRunTime
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2637862705757743665, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2637862705757743666, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
+      propertyPath: JumpForce
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}

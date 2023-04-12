@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e660a5e32fa41c4fad559c5bfc94332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SensX: 200
-  SensY: 200
+  SensX: 1000
+  SensY: 1000
   Orientation: {fileID: 0}
   CamHolder: {fileID: 6689496637994019275}
 --- !u!1 &6689496637994019273

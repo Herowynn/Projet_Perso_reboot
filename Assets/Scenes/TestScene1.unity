@@ -6224,6 +6224,10 @@ PrefabInstance:
       propertyPath: MaxWallRunTime
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 2637862705757743663, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
+      propertyPath: DownwardsRunKey
+      value: 308
+      objectReference: {fileID: 0}
     - target: {fileID: 2637862705757743665, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
       propertyPath: m_Name
       value: Player

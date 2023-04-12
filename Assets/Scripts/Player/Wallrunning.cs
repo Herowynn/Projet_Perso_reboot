@@ -18,7 +18,7 @@ public class Wallrunning : MonoBehaviour
     [Header("Input")]
     public KeyCode JumpKey = KeyCode.Space;
     public KeyCode UpwardsRunKey = KeyCode.LeftShift;
-    public KeyCode DownwardsRunKey = KeyCode.LeftControl;
+    public KeyCode DownwardsRunKey = KeyCode.LeftAlt;
     bool _upwardsRunning;
     bool _downwardsRunning;
     float _horizontalInput;
@@ -58,7 +58,7 @@ public class Wallrunning : MonoBehaviour
     {
         CheckForWalls();
         StateMachine();
-        if (IsGrounded())
+        if (GetComponentInParent<PlayerMovement>().Grounded())
             _canReWallRun = true;
     }
 
@@ -74,11 +74,6 @@ public class Wallrunning : MonoBehaviour
         _wallLeft = Physics.Raycast(transform.position, -Orientation.right, out _leftWallHit, WallCheckDistance, Wall);
     }
 
-    bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, MinJumpHeight, Ground);
-    }
-
     void StateMachine()
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -87,7 +82,7 @@ public class Wallrunning : MonoBehaviour
         _upwardsRunning = Input.GetKey(UpwardsRunKey);
         _downwardsRunning = Input.GetKey(DownwardsRunKey);
 
-        if((_wallLeft || _wallRight) && _verticalInput > 0 && !IsGrounded() && !_exitingWall && _canReWallRun)
+        if((_wallLeft || _wallRight) && _verticalInput > 0 && !GetComponentInParent<PlayerMovement>().Grounded() && !_exitingWall && _canReWallRun)
         {
             if(!_pm.WallRunning)
                 StartWallRun();

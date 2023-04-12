@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
             _rb.drag = 0f;
     }
 
-    bool Grounded()
+    public bool Grounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, _playerHeight * .5f + .2f, WhatIsGround);
     }
@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(JumpKey) && _readyToJump && Grounded() && !WallRunning)
+        if (Input.GetKey(JumpKey) && _readyToJump && Grounded())
         {
             _readyToJump = false;
 
@@ -98,14 +98,11 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), JumpColldown);
         }
 
-        else if (Input.GetKeyDown(CrouchKey))
+        else if (Input.GetKeyDown(CrouchKey) && Grounded())
         {
-            if(WallRunning == false)
-            {
-                _readyToJump = false;
-                transform.localScale = new Vector3(transform.localScale.x, CrouchYScale, transform.localScale.z);
-                _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-            }
+            _readyToJump = false;
+            transform.localScale = new Vector3(transform.localScale.x, CrouchYScale, transform.localScale.z);
+            _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         }
 
         else if(Input.GetKeyUp(CrouchKey) && CanUncrouch())

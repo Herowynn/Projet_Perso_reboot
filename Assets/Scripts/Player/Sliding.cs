@@ -37,10 +37,10 @@ public class Sliding : MonoBehaviour
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(SlideKey) && (_horizontalInput != 0 || _verticalInput != 0))
+        if (Input.GetKeyDown(SlideKey) && (_horizontalInput != 0 || _verticalInput != 0) && GetComponentInParent<PlayerMovement>().Grounded())
             StartSlide();
 
-        if (Input.GetKeyUp(SlideKey) && _sliding)
+        else if (Input.GetKeyUp(SlideKey) && _sliding)
             StopSlide();
     }
 
@@ -72,9 +72,7 @@ public class Sliding : MonoBehaviour
         }
 
         else
-        {
             _rb.AddForce(_pm.GetSlopeMoveDirection(inputDirection) * SlideForce, ForceMode.Force);
-        }
 
         if(_slideTimer <= 0)
             StopSlide();

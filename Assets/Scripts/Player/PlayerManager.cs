@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(RespawnKey))
+        if (Input.GetKeyDown(RespawnKey) && GameManager.Instance.CurrentPlayerState == GameState.INGAME)
         {
             transform.SetPositionAndRotation(GameManager.Instance.LastCheckpoint, Quaternion.identity);
 
@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.UpdateNbRespawns(false);
         }
 
-        if(Input.GetKeyDown(RestartKey))
+        if(Input.GetKeyDown(RestartKey) && GameManager.Instance.CurrentPlayerState == GameState.INGAME)
         {
             transform.SetPositionAndRotation(GameManager.Instance.StartPoint.position, Quaternion.identity);
 

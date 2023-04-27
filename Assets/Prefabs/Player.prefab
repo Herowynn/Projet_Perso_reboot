@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2637862705123461610}
   - component: {fileID: 2637862705123461611}
   - component: {fileID: 2637862705123461608}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerObj
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2637862705303460735}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,9 @@ GameObject:
   - component: {fileID: 2637862705757743661}
   - component: {fileID: 2637862705757743663}
   - component: {fileID: 1628093542}
-  m_Layer: 0
+  - component: {fileID: 1628093543}
+  - component: {fileID: 5337484478635671751}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -201,7 +203,7 @@ MonoBehaviour:
   SprintSpeed: 10
   WallRunSpeed: 8
   GroundDrag: 4
-  JumpForce: 12
+  JumpForce: 7
   JumpColldown: 0.25
   AirMultiplier: 0.4
   CrouchSpeed: 3.5
@@ -214,8 +216,10 @@ MonoBehaviour:
     m_Bits: 8
   MaxSloapAngle: 40
   Orientation: {fileID: 2637862705303460735}
+  Rb: {fileID: 0}
   State: 0
-  WallRunning: 0
+  IsWallRunning: 0
+  IsFroze: 0
 --- !u!114 &2637862705757743661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,20 +253,15 @@ MonoBehaviour:
   Wall:
     serializedVersion: 2
     m_Bits: 64
-  Ground:
-    serializedVersion: 2
-    m_Bits: 8
   WallRunForce: 200
   WallJumpUpForce: 7
   WallJumpSideForce: 12
   WallClimbSpeed: 3
-  MaxWallRunTime: 0.7
-  _canReWallRun: 0
+  MaxWallRunTime: 50
   JumpKey: 32
   UpwardsRunKey: 304
-  DownwardsRunKey: 306
+  DownwardsRunKey: 308
   WallCheckDistance: 0.7
-  MinJumpHeight: 2
   ExitWallTime: 0.2
   UseGravity: 0
   GravityCounterForce: 0
@@ -282,6 +281,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RespawnKey: 9
   RestartKey: 114
+--- !u!114 &1628093543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637862705757743665}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1b90a544452e5458a5ea2a2b212fbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GhostRecord: {fileID: 11400000, guid: 52c3d1092ba50a145bba034b753a7194, type: 2}
+  GhostReplay: {fileID: 11400000, guid: a9e46c48437e23d459974c1517e1cb5c, type: 2}
+--- !u!114 &5337484478635671751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637862705757743665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50f8f1f6ca7b1a84cad77530c6bb9cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cam: {fileID: 0}
+  MoveToLedgeSpeed: 12
+  MaxLedgeGrabDistance: 2
+  MinTimeOnLedge: 0.5
+  IsHolding: 0
+  LedgeDetectionLength: 3
+  LedgeSphereCastRadius: 0.5
+  WhatIsLedge:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &2637862706403719912
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2637862706403719915}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

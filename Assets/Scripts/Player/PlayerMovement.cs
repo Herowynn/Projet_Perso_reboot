@@ -44,16 +44,20 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 _moveDirection;
 
-    Rigidbody _rb;
+    public Rigidbody Rb;
 
     public MovementState State;
 
-    public bool WallRunning;
+    public bool IsWallRunning;
+    public bool IsFroze;
 
-    private void Start()
+	private void Awake()
+	{
+		Rb = GetComponent<Rigidbody>();
+	}
+
+	private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-
         _readyToJump = true;
 
         _startYScale = transform.localScale.y;
@@ -68,9 +72,9 @@ public class PlayerMovement : MonoBehaviour
         StateHandler();
 
         if (Grounded())
-            _rb.drag = GroundDrag;
+            Rb.drag = GroundDrag;
         else
-            _rb.drag = 0f;
+            Rb.drag = 0f;
     }
 
     public bool Grounded()
@@ -101,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _readyToJump = false;
             transform.localScale = new Vector3(transform.localScale.x, CrouchYScale, transform.localScale.z);
-            _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            Rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         }
 
         else if(Input.GetKeyUp(CrouchKey) && CanUncrouch())
@@ -118,7 +122,13 @@ public class PlayerMovement : MonoBehaviour
 
     void StateHandler()
     {
-        if (WallRunning)
+        if (IsFroze)
+        {
+            Rb.velocity = Vector3.zero;
+            _moveSpeed = 0;
+        }
+
+        else if (IsWallRunning)
         {
             State = MovementState.WallRunning;
             _moveSpeed = WallRunSpeed;
@@ -150,41 +160,44 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayer()
     {
+        if (IsFroze)
+            return;
+
         _moveDirection = Orientation.forward * _verticalInput + Orientation.right * _horizontalInput;
 
         if (OnSlope() && !_exitingSlope)
         {
-            _rb.AddForce(GetSlopeMoveDirection(_moveDirection) * _moveSpeed * 20f, ForceMode.Force);
+            Rb.AddForce(GetSlopeMoveDirection(_moveDirection) * _moveSpeed * 20f, ForceMode.Force);
 
-            if (_rb.velocity.y > 0)
-                _rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+            if (Rb.velocity.y > 0)
+                Rb.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
 
         if(Grounded())
-            _rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f, ForceMode.Force);
+            Rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f, ForceMode.Force);
 
         else if (!Grounded())
-            _rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f * AirMultiplier, ForceMode.Force);
+            Rb.AddForce(_moveDirection.normalized * _moveSpeed * 10f * AirMultiplier, ForceMode.Force);
 
-        if(!WallRunning)
-            _rb.useGravity = !OnSlope();
+        if (!IsWallRunning)
+            Rb.useGravity = !OnSlope();
     }
 
     void SpeedControl()
     {
         if (OnSlope() && !_exitingSlope)
         {
-            if (_rb.velocity.magnitude > _moveSpeed)
-                _rb.velocity = _rb.velocity.normalized * _moveSpeed;
+            if (Rb.velocity.magnitude > _moveSpeed)
+                Rb.velocity = Rb.velocity.normalized * _moveSpeed;
         }
         else
         {
-            Vector3 flatVel = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
+            Vector3 flatVel = new Vector3(Rb.velocity.x, 0f, Rb.velocity.z);
 
             if (flatVel.magnitude > _moveSpeed)
             {
                 Vector3 limitedVel = flatVel.normalized * _moveSpeed;
-                _rb.velocity = new Vector3(limitedVel.x, _rb.velocity.y, limitedVel.z);
+                Rb.velocity = new Vector3(limitedVel.x, Rb.velocity.y, limitedVel.z);
             }
         }
         
@@ -194,9 +207,9 @@ public class PlayerMovement : MonoBehaviour
     {
         _exitingSlope = true;
 
-        _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
+        Rb.velocity = new Vector3(Rb.velocity.x, 0f, Rb.velocity.z);
 
-        _rb.AddForce(transform.up * JumpForce, ForceMode.Impulse);
+        Rb.AddForce(transform.up * JumpForce, ForceMode.Impulse);
     }
 
     void ResetJump()

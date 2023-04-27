@@ -34,4 +34,18 @@ public class PlayerManager : MonoBehaviour
             GameManager.Instance.TimeRunning = true;
         }
     }
+
+	private void OnTriggerEnter(Collider other)
+	{
+        if (other.GetComponent<DeathDetection>())
+        {
+			transform.SetPositionAndRotation(GameManager.Instance.LastCheckpoint, Quaternion.identity);
+
+			GameManager.Instance.AddTimer(2);
+
+			Debug.Log("You respawn at the checkpoint");
+
+			GameManager.Instance.UpdateNbRespawns(false);
+		}
+	}
 }

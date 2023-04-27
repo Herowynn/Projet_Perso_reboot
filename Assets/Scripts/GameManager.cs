@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public string LevelName;
     public int CountDownTime = 3;
 
+    public PlayerCamera PlayerCam;
+
 	[Header("Game State")]
 	public GameState CurrentPlayerState;
 
@@ -48,8 +50,9 @@ public class GameManager : MonoBehaviour
         CountdownUI.SetActive(true);
 
         Player.transform.position = StartPoint.position;
+        PlayerCam.enabled = false;
 		Player.SetActive(false);
-		StartCoroutine(CountDown());
+        StartCoroutine(CountDown());
     }
 
     IEnumerator CountDown()
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
 		}
 
         Player.SetActive(true);
+        PlayerCam.enabled = true;
         CountdownText.text = "GO !";
 
         CurrentPlayerState = GameState.INGAME;
@@ -88,9 +92,8 @@ public class GameManager : MonoBehaviour
             CurrentPlayerState = GameState.ENDGAME;
 
             Player.SetActive(false);
+            PlayerCam.enabled = false;
             TimerUI.SetActive(false);
-
-            Debug.Log("Bravo ! Tu as gagné en " + FormatTime(_time));
 
             string highScoreKey = LevelName + "_" + "HighScore";
 
@@ -104,12 +107,9 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if(_time < PlayerPrefs.GetFloat(highScoreKey))
-                {
-                    PlayerPrefs.SetFloat(highScoreKey, _time);
-                    PlayerPrefs.Save();
-                }
-            }
+				PlayerPrefs.SetFloat(highScoreKey, _time);
+				PlayerPrefs.Save();
+			}
 
 			EndScreenUI.SetActive(true);
 

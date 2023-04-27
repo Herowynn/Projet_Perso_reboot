@@ -214,6 +214,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5337484478635671751, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
+      propertyPath: Cam
+      value: 
+      objectReference: {fileID: 2074081966}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
 --- !u!4 &28797829 stripped
@@ -1932,14 +1936,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 2114709485566130435, guid: 1e897f8663c86104c8a00c9645c16b68, type: 3}
-      propertyPath: m_Name
-      value: CountDown
-      objectReference: {fileID: 0}
-    - target: {fileID: 2114709485566130435, guid: 1e897f8663c86104c8a00c9645c16b68, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e897f8663c86104c8a00c9645c16b68, type: 3}
 --- !u!114 &1258027821 stripped
@@ -2168,20 +2164,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2637862705757743665, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
   m_PrefabInstance: {fileID: 28797828}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1628093543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628093536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1b90a544452e5458a5ea2a2b212fbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GhostRecord: {fileID: 11400000, guid: 52c3d1092ba50a145bba034b753a7194, type: 2}
-  GhostReplay: {fileID: 11400000, guid: a9e46c48437e23d459974c1517e1cb5c, type: 2}
 --- !u!1001 &1671473840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2327,6 +2309,11 @@ MonoBehaviour:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2114709485566130435, guid: 1e897f8663c86104c8a00c9645c16b68, type: 3}
   m_PrefabInstance: {fileID: 1189145518}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2074081966 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6689496637298191100, guid: 00560d562ff86e042870b4ca0e87d8d7, type: 3}
+  m_PrefabInstance: {fileID: 1766041852}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2129851124 stripped
 MonoBehaviour:

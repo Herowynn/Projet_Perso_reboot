@@ -22,8 +22,8 @@ public class PlayerCamera : MonoBehaviour
 
     private void Update()
     {
-        if(GameManager.Instance.CurrentPlayerState == GameState.INGAME)
-        {
+        //if(GameManager.Instance.CurrentPlayerState == GameState.INGAME)
+        //{
 			float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * SensX;
 			float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * SensY;
 
@@ -34,7 +34,7 @@ public class PlayerCamera : MonoBehaviour
 
 			CamHolder.rotation = Quaternion.Euler(_xRot, _yRot, 0f);
 			Orientation.rotation = Quaternion.Euler(0f, _yRot, 0f);
-		}
+		//}
     }
 
     public void DoFov(float endValue)

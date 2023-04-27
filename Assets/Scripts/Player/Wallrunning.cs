@@ -62,7 +62,7 @@ public class Wallrunning : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_pm.WallRunning)
+        if (_pm.IsWallRunning)
             WallRunningMovement();
     }
 
@@ -82,13 +82,13 @@ public class Wallrunning : MonoBehaviour
 
         if((_wallLeft || _wallRight) && _verticalInput > 0 && !GetComponentInParent<PlayerMovement>().Grounded() && !_exitingWall && _canReWallRun)
         {
-            if(!_pm.WallRunning)
+            if(!_pm.IsWallRunning)
                 StartWallRun();
 
             if (_wallRunTimer > 0)
                 _wallRunTimer -= Time.deltaTime;
 
-            if(_wallRunTimer <= 0 && _pm.WallRunning)
+            if(_wallRunTimer <= 0 && _pm.IsWallRunning)
             {
                 _exitingWall = true;
                 _exitWallTimer = ExitWallTime;
@@ -102,7 +102,7 @@ public class Wallrunning : MonoBehaviour
         
         else if (_exitingWall)
         {
-            if(_pm.WallRunning)
+            if(_pm.IsWallRunning)
                 StopWallRun();
 
             if (_exitWallTimer > 0)
@@ -114,14 +114,14 @@ public class Wallrunning : MonoBehaviour
 
         else
         {
-            if(_pm.WallRunning)
+            if(_pm.IsWallRunning)
                 StopWallRun();
         }
     }
 
     void StartWallRun()
     {
-        _pm.WallRunning = true;
+        _pm.IsWallRunning = true;
 
         _wallRunTimer = MaxWallRunTime;
 
@@ -165,7 +165,7 @@ public class Wallrunning : MonoBehaviour
 
     void StopWallRun()
     {
-        _pm.WallRunning = false;
+        _pm.IsWallRunning = false;
 
         Cam.DoFov(80f);
         Cam.DoTilt(0f);

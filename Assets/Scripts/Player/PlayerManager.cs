@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-        if (other.GetComponent<DeathDetection>())
+        if (other.GetComponent<DeathDetection>() || other.GetComponent<Obstacle>())
         {
 			transform.SetPositionAndRotation(GameManager.Instance.LastCheckpoint, Quaternion.identity);
 

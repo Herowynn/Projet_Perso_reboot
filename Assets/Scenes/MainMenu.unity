@@ -1461,7 +1461,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 815392201}
+        m_TargetAssemblyTypeName: OptionsMenu, Assembly-CSharp
+        m_MethodName: OnValueChangedHoriz
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &704507313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1624,6 +1636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 815392199}
   - component: {fileID: 815392200}
+  - component: {fileID: 815392201}
   m_Layer: 0
   m_Name: _Scripts
   m_TagString: Untagged
@@ -1662,6 +1675,22 @@ MonoBehaviour:
   LevelSelection: {fileID: 2143252137}
   OptionsMenu: {fileID: 1260460410}
   HighScore: {fileID: 866425736}
+--- !u!114 &815392201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815392197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee9fa4bcb465484f85d37f135fff6fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SliderHoriz: {fileID: 652462054}
+  SliderVert: {fileID: 1872721028}
+  TextHoriz: {fileID: 1841128978}
+  TextVert: {fileID: 1381096693}
 --- !u!1 &820648826
 GameObject:
   m_ObjectHideFlags: 0
@@ -4496,7 +4525,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 815392201}
+        m_TargetAssemblyTypeName: OptionsMenu, Assembly-CSharp
+        m_MethodName: OnValueChangedVert
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1997255509
 GameObject:
   m_ObjectHideFlags: 0

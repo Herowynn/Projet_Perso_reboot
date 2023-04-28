@@ -6,8 +6,8 @@ using DG.Tweening;
 public class PlayerCamera : MonoBehaviour
 {
     [Header("Mouse Sensitivity")]
-    public float SensX;
-    public float SensY;
+    [SerializeField] private float _sensX;
+	[SerializeField] private float _sensY;
 
     [Header("References")]
     public Transform Orientation;
@@ -19,14 +19,16 @@ public class PlayerCamera : MonoBehaviour
 
     private void Start()
     {
+        _sensX = PlayerPrefs.GetFloat("HorizontalSensitivity") * 100;
+        _sensY = PlayerPrefs.GetFloat("VerticalSensitivity") * 100;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void Update()
     {
-		float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * SensX;
-		float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * SensY;
+		float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * _sensX;
+		float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * _sensY;
 
 		_yRot += mouseX;
 

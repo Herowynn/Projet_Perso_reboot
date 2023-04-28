@@ -13414,6 +13414,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1628093543, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1628093543, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
+      propertyPath: GhostRecord
+      value: 
+      objectReference: {fileID: 11400000, guid: 165a2ee61fb5616408ed6855f2b8f512, type: 2}
+    - target: {fileID: 1628093543, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
+      propertyPath: GhostReplay
+      value: 
+      objectReference: {fileID: 11400000, guid: 3699942b14e6cdb47bd1341a0d0f18b9, type: 2}
     - target: {fileID: 2637862705757743660, guid: b9f7e29e427f1dd469da27efb2e8cdb4, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -14925,6 +14937,10 @@ PrefabInstance:
       value: _Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 3729493955197844846, guid: f7ced383b5be02a47a09efad6ca95724, type: 3}
+      propertyPath: Ghost
+      value: 
+      objectReference: {fileID: 1546633177624551701, guid: 88e24738d116517438bdd63fa6e4b493, type: 3}
+    - target: {fileID: 3729493955197844846, guid: f7ced383b5be02a47a09efad6ca95724, type: 3}
       propertyPath: Timer
       value: 
       objectReference: {fileID: 218631392}
@@ -14956,6 +14972,14 @@ PrefabInstance:
       propertyPath: EndScreenUI
       value: 
       objectReference: {fileID: 218631390}
+    - target: {fileID: 3729493955197844846, guid: f7ced383b5be02a47a09efad6ca95724, type: 3}
+      propertyPath: GhostRecord
+      value: 
+      objectReference: {fileID: 11400000, guid: 3699942b14e6cdb47bd1341a0d0f18b9, type: 2}
+    - target: {fileID: 3729493955197844846, guid: f7ced383b5be02a47a09efad6ca95724, type: 3}
+      propertyPath: GhostReplay
+      value: 
+      objectReference: {fileID: 11400000, guid: 165a2ee61fb5616408ed6855f2b8f512, type: 2}
     - target: {fileID: 3729493955197844846, guid: f7ced383b5be02a47a09efad6ca95724, type: 3}
       propertyPath: NbRespawnUI
       value: 

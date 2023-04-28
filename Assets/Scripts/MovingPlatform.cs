@@ -16,15 +16,7 @@ public class MovingPlatform : MonoBehaviour
 	private void Start()
 	{
 		_nextNode = 0;
-		//StartCoroutine(TryIf());
 	}
-/*
-	IEnumerator TryIf()
-	{
-		yield return new WaitForSeconds(1);
-		_nextNode = _nextNode != (Nodes.Count - 1) ? _nextNode + 1 : 0;
-		StartCoroutine(TryIf());
-	}*/
 
 	private void Update()
 	{

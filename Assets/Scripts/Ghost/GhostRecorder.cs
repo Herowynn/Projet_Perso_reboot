@@ -29,7 +29,7 @@ public class GhostRecorder : MonoBehaviour
 		if(GhostRecord.IsRecording & _timer >= 1 / GhostRecord.RecordFrequency)
 		{
 			GhostRecord.TimeStamps.Add( _timeValue );
-			GhostRecord.Positions.Add(transform.position );
+			GhostRecord.Positions.Add(transform.position);
 			GhostRecord.Rotations.Add(transform.eulerAngles);
 
 			_timer = 0;

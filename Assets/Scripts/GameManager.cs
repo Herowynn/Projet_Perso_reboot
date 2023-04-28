@@ -37,7 +37,14 @@ public class GameManager : MonoBehaviour
     public GameObject EndScreenUI;
     public TextMeshProUGUI ScoreText;
 
-    public static GameManager Instance;
+    [Header("Ghost")]
+    public Ghost GhostReplay;
+    public Ghost GhostRecord;
+	public GameObject Ghost;
+    private string _highScoreKey;
+
+
+	public static GameManager Instance;
 
 	#endregion
 
@@ -52,10 +59,13 @@ public class GameManager : MonoBehaviour
         NbRespawnUI.text = "Respawn Count : \n" + NbRespawn.ToString();
 
         CurrentPlayerState = GameState.COUNTDOWN;
-    }
+
+		_highScoreKey = LevelName + "_" + "HighScore";
+	}
 
     private void Start()
     {
+        TimeRunning = false;
         TimerUI.SetActive(true);
         EndScreenUI.SetActive(false);
         CountdownUI.SetActive(true);
@@ -83,26 +93,32 @@ public class GameManager : MonoBehaviour
 			PlayerCam.enabled = false;
 			TimerUI.SetActive(false);
 
-			string highScoreKey = LevelName + "_" + "HighScore";
-
-			if (PlayerPrefs.HasKey(highScoreKey))
+			if (PlayerPrefs.HasKey(_highScoreKey))
 			{
-				if (_time < PlayerPrefs.GetFloat(highScoreKey))
+				if (_time < PlayerPrefs.GetFloat(_highScoreKey))
 				{
-					PlayerPrefs.SetFloat(highScoreKey, _time);
+					PlayerPrefs.SetFloat(_highScoreKey, _time);
 					PlayerPrefs.Save();
+
+                    GhostReplay.TimeStamps = GhostRecord.TimeStamps;
+                    GhostReplay.Positions = GhostRecord.Positions;
+                    GhostReplay.Rotations = GhostRecord.Rotations;
 				}
 			}
 			else
 			{
-				PlayerPrefs.SetFloat(highScoreKey, _time);
+				PlayerPrefs.SetFloat(_highScoreKey, _time);
 				PlayerPrefs.Save();
+
+				GhostReplay.TimeStamps = GhostRecord.TimeStamps;
+				GhostReplay.Positions = GhostRecord.Positions;
+				GhostReplay.Rotations = GhostRecord.Rotations;
 			}
 
 			EndScreenUI.SetActive(true);
 
 			ScoreText.text = "your actual score \n " + FormatTime(_time) +
-				"\n \n your best score \n" + FormatTime(PlayerPrefs.GetFloat(highScoreKey));
+				"\n \n your best score \n" + FormatTime(PlayerPrefs.GetFloat(_highScoreKey));
 		}
 	}
 
@@ -130,7 +146,14 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        CountdownUI.SetActive(false);    
+        CountdownUI.SetActive(false);
+
+        if (PlayerPrefs.HasKey(_highScoreKey))
+        {
+            GameObject ghost = Instantiate(Ghost);
+            ghost.GetComponent<GhostPlayer>().Ghost = GhostReplay;
+		}
+            
     }
 
     public void UpdateNbRespawns(bool reload)

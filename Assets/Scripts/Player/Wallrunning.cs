@@ -4,36 +4,38 @@ using UnityEngine;
 
 public class Wallrunning : MonoBehaviour
 {
-    [Header("Wall Run")]
+	#region Variables
+
+	[Header("Wall Run")]
     public LayerMask Wall;
     public float WallRunForce;
     public float WallJumpUpForce;
     public float WallJumpSideForce;
     public float WallClimbSpeed;
     public float MaxWallRunTime;
-    float _wallRunTimer;
-    bool _canReWallRun;
+    private float _wallRunTimer;
+    private bool _canReWallRun;
 
-    [Header("Input")]
+    [Header("Inputs")]
     public KeyCode JumpKey = KeyCode.Space;
     public KeyCode UpwardsRunKey = KeyCode.LeftShift;
     public KeyCode DownwardsRunKey = KeyCode.LeftAlt;
-    bool _upwardsRunning;
-    bool _downwardsRunning;
-    float _horizontalInput;
-    float _verticalInput;
+	private bool _upwardsRunning;
+    private bool _downwardsRunning;
+    private float _horizontalInput;
+    private float _verticalInput;
 
     [Header("Detection")]
     public float WallCheckDistance;
-    RaycastHit _leftWallHit;
-    RaycastHit _rightWallHit;
-    bool _wallLeft;
-    bool _wallRight;
+	private RaycastHit _leftWallHit;
+    private RaycastHit _rightWallHit;
+    private bool _wallLeft;
+    private bool _wallRight;
 
-    [Header("Exiting")]
+    [Header("Exiting WallRun")]
     public float ExitWallTime;
-    float _exitWallTimer;
-    bool _exitingWall;
+    private float _exitWallTimer;
+    private bool _exitingWall;
 
     [Header("Gravity")]
     public bool UseGravity;
@@ -42,10 +44,14 @@ public class Wallrunning : MonoBehaviour
     [Header("References")]
     public Transform Orientation;
     public PlayerCamera Cam;
-    PlayerMovement _pm;
-    Rigidbody _rb;
+    private PlayerMovement _pm;
+    private Rigidbody _rb;
 
-    private void Start()
+	#endregion
+
+	#region Default Functions
+
+	private void Start()
     {
         _canReWallRun = true;
         _pm = GetComponent<PlayerMovement>();
@@ -66,13 +72,16 @@ public class Wallrunning : MonoBehaviour
             WallRunningMovement();
     }
 
-    void CheckForWalls()
+	#endregion
+
+	#region My Functions
+	private void CheckForWalls()
     {
         _wallRight = Physics.Raycast(transform.position, Orientation.right, out _rightWallHit, WallCheckDistance, Wall);
         _wallLeft = Physics.Raycast(transform.position, -Orientation.right, out _leftWallHit, WallCheckDistance, Wall);
     }
 
-    void StateMachine()
+	private void StateMachine()
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
@@ -119,7 +128,7 @@ public class Wallrunning : MonoBehaviour
         }
     }
 
-    void StartWallRun()
+	private void StartWallRun()
     {
         _pm.IsWallRunning = true;
 
@@ -137,7 +146,7 @@ public class Wallrunning : MonoBehaviour
 
     }
 
-    void WallRunningMovement()
+	private void WallRunningMovement()
     {
         _rb.useGravity = UseGravity;
 
@@ -163,7 +172,7 @@ public class Wallrunning : MonoBehaviour
             _rb.AddForce(transform.up * GravityCounterForce, ForceMode.Force);
     }
 
-    void StopWallRun()
+	private void StopWallRun()
     {
         _pm.IsWallRunning = false;
 
@@ -171,7 +180,7 @@ public class Wallrunning : MonoBehaviour
         Cam.DoTilt(0f);
     }
 
-    void WallJump()
+	private void WallJump()
     {
         _exitingWall = true;
         _exitWallTimer = ExitWallTime;
@@ -184,4 +193,6 @@ public class Wallrunning : MonoBehaviour
 
         _rb.AddForce(forceToApply, ForceMode.Impulse);
     }
+
+    #endregion
 }

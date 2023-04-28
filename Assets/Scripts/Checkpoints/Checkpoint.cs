@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    string _playerTag;
+    private string _playerTag;
 
     private void Start()
     {

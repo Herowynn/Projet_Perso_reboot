@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class DeathDetection : MonoBehaviour
 {
+	// Use to detect when player falls down from the map
 }

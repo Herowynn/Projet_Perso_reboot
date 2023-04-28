@@ -7,6 +7,7 @@ public class GhostRecorder : MonoBehaviour
 {
     public Ghost GhostRecord;
 	public Ghost GhostReplay;
+
     private float _timer;
     private float _timeValue;
 

@@ -4,27 +4,34 @@ using UnityEngine;
 
 public class Sliding : MonoBehaviour
 {
-    [Header("References")]
+	#region Variables
+
+	[Header("References")]
     public Transform Orientation;
     public Transform PlayerObj;
-    Rigidbody _rb;
-    PlayerMovement _pm;
+	private Rigidbody _rb;
+	private PlayerMovement _pm;
 
     [Header("Sliding")]
     public float MaxSlideTime;
     public float SlideForce;
-    float _slideTimer;
-    bool _sliding;
+	private float _slideTimer;
+    private bool _sliding;
 
+    [Header("Y Sliding Scale")]
     public float SlideYScale;
-    float _startYScale;
+    private float _startYScale;
 
     [Header("Input")]
     public KeyCode SlideKey = KeyCode.LeftControl;
-    float _horizontalInput;
-    float _verticalInput;
+    private float _horizontalInput;
+    private float _verticalInput;
 
-    private void Start()
+	#endregion
+
+	#region Default Functions
+
+	private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _pm = GetComponent<PlayerMovement>();
@@ -50,7 +57,11 @@ public class Sliding : MonoBehaviour
             SlidingMovement();
     }
 
-    void StartSlide()
+	#endregion
+
+	#region My Functions
+
+	void StartSlide()
     {
         _sliding = true;
 
@@ -84,4 +95,6 @@ public class Sliding : MonoBehaviour
 
         PlayerObj.localScale = new Vector3(PlayerObj.localScale.x, _startYScale, PlayerObj.localScale.z);
     }
+
+	#endregion
 }

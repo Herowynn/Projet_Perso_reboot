@@ -5,18 +5,27 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	#region Variables
+
+	[Header("Texts")]
     public TextMeshProUGUI Timer;
     public TextMeshProUGUI NbRespawnUI;
-    public bool TimeRunning = false;
-    public Vector3 LastCheckpoint;
-    public GameObject Player;
-    public Transform StartPoint;
-    public string PlayerTag;
-    public int NbRespawn = 0;
+
+    [Header("Player References")]
+	public GameObject Player;
+	public PlayerCamera PlayerCam;
+	public string PlayerTag;
+
+    [Header("Level Parameters")]
+	public bool TimeRunning = false;
     public string LevelName;
     public int CountDownTime = 3;
+	private float _time = 0f;
 
-    public PlayerCamera PlayerCam;
+	[Header("Checkpoints")]
+	public Vector3 LastCheckpoint;
+	public Transform StartPoint;
+	public int NbRespawn = 0;
 
 	[Header("Game State")]
 	public GameState CurrentPlayerState;
@@ -30,9 +39,11 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
-    float _time = 0f;
+	#endregion
 
-    private void Awake()
+	#region Default Functions
+
+	private void Awake()
     {
         if (Instance == null) Instance = this;
 
@@ -55,7 +66,51 @@ public class GameManager : MonoBehaviour
         StartCoroutine(CountDown());
     }
 
-    IEnumerator CountDown()
+	private void Update()
+	{
+		if (TimeRunning)
+		{
+			_time += Time.deltaTime;
+
+			Timer.text = FormatTime(_time);
+		}
+
+		else if (!TimeRunning && CurrentPlayerState == GameState.INGAME)
+		{
+			CurrentPlayerState = GameState.ENDGAME;
+
+			Player.SetActive(false);
+			PlayerCam.enabled = false;
+			TimerUI.SetActive(false);
+
+			string highScoreKey = LevelName + "_" + "HighScore";
+
+			if (PlayerPrefs.HasKey(highScoreKey))
+			{
+				if (_time < PlayerPrefs.GetFloat(highScoreKey))
+				{
+					PlayerPrefs.SetFloat(highScoreKey, _time);
+					PlayerPrefs.Save();
+				}
+			}
+			else
+			{
+				PlayerPrefs.SetFloat(highScoreKey, _time);
+				PlayerPrefs.Save();
+			}
+
+			EndScreenUI.SetActive(true);
+
+			ScoreText.text = "your actual score \n " + FormatTime(_time) +
+				"\n \n your best score \n" + FormatTime(PlayerPrefs.GetFloat(highScoreKey));
+		}
+	}
+
+	#endregion
+
+	#region My Functions
+
+	private IEnumerator CountDown()
     {
         while(CountDownTime > 0)
         {
@@ -78,46 +133,6 @@ public class GameManager : MonoBehaviour
         CountdownUI.SetActive(false);    
     }
 
-    private void Update()
-    {
-        if (TimeRunning)
-        {
-            _time += Time.deltaTime;
-
-            Timer.text = FormatTime(_time);
-        }
-
-        else if(!TimeRunning && CurrentPlayerState == GameState.INGAME)
-        {
-            CurrentPlayerState = GameState.ENDGAME;
-
-            Player.SetActive(false);
-            PlayerCam.enabled = false;
-            TimerUI.SetActive(false);
-
-            string highScoreKey = LevelName + "_" + "HighScore";
-
-            if (PlayerPrefs.HasKey(highScoreKey))
-            {
-                if(_time < PlayerPrefs.GetFloat(highScoreKey))
-                {
-                    PlayerPrefs.SetFloat(highScoreKey, _time);
-                    PlayerPrefs.Save();
-                }
-            }
-            else
-            {
-				PlayerPrefs.SetFloat(highScoreKey, _time);
-				PlayerPrefs.Save();
-			}
-
-			EndScreenUI.SetActive(true);
-
-            ScoreText.text = "your actual score \n " + FormatTime(_time) + 
-                "\n \n your best score \n" + FormatTime(PlayerPrefs.GetFloat(highScoreKey));
-		}
-    }
-
     public void UpdateNbRespawns(bool reload)
     {
         if (reload) NbRespawn = 0;
@@ -137,7 +152,7 @@ public class GameManager : MonoBehaviour
         Timer.text = FormatTime(_time);
     }
 
-    string FormatTime(float time)
+	private string FormatTime(float time)
     {
         int intTime = (int)time;
         int minutes = intTime / 60;
@@ -148,4 +163,6 @@ public class GameManager : MonoBehaviour
 
         return timeText;
     }
+
+	#endregion
 }

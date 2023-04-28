@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Climbing : MonoBehaviour
 {
+	#region Variables
+
 	[Header("References")]
 	private PlayerMovement _pm;
 	private Transform _orientation;
@@ -14,10 +16,9 @@ public class Climbing : MonoBehaviour
 	public float MoveToLedgeSpeed;
 	public float MaxLedgeGrabDistance;
 
+	[Header("Timer")]
 	public float MinTimeOnLedge;
 	private float _timeOnLedge;
-
-	public bool IsHolding;
 
 	[Header("Ledge jumping")]
 	public KeyCode JumpKey = KeyCode.Space;
@@ -28,16 +29,18 @@ public class Climbing : MonoBehaviour
 	public float LedgeDetectionLength;
 	public float LedgeSphereCastRadius;
 	public LayerMask WhatIsLedge;
-
 	private Transform _lastLedge;
 	private Transform _currentLedge;
-
 	private RaycastHit _ledgeHit;
 
 	[Header("Exiting")]
 	public bool IsExitingLedge;
 	public float ExitLedgeTime;
 	private float _exitLedgeTimer;
+
+	public bool IsHolding;
+
+	#endregion
 
 	private void Start()
 	{
@@ -48,7 +51,6 @@ public class Climbing : MonoBehaviour
 
 	private void Update()
 	{
-		Debug.Log(IsHolding);
 		LedgeDetection();
 		SubStateMachine();
 	}
@@ -134,8 +136,8 @@ public class Climbing : MonoBehaviour
 
 		else
 		{
-			if (!_pm.IsFroze) 
-				_pm.IsFroze = true;
+			if (!_pm.IsFrozen) 
+				_pm.IsFrozen = true;
 		}
 
 		if(distanceToLedge > MaxLedgeGrabDistance)
@@ -147,7 +149,7 @@ public class Climbing : MonoBehaviour
 		IsHolding = false;
 		_timeOnLedge = 0f;
 
-		_pm.IsFroze = false;
+		_pm.IsFrozen = false;
 
 		_rb.useGravity = true;
 

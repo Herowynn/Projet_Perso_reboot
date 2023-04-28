@@ -5,12 +5,15 @@ using DG.Tweening;
 
 public class PlayerCamera : MonoBehaviour
 {
+    [Header("Mouse Sensitivity")]
     public float SensX;
     public float SensY;
 
+    [Header("References")]
     public Transform Orientation;
     public Transform CamHolder;
 
+    [Header("Rotations")]
     float _xRot;
     float _yRot;
 
@@ -28,7 +31,7 @@ public class PlayerCamera : MonoBehaviour
 		_yRot += mouseX;
 
 		_xRot -= mouseY;
-		_xRot = Mathf.Clamp(_xRot, _yRot - 45f, 45f);
+		_xRot = Mathf.Clamp(_xRot, - 45f, 45f);
 
 		CamHolder.rotation = Quaternion.Euler(_xRot, _yRot, 0f);
 		Orientation.rotation = Quaternion.Euler(0f, _yRot, 0f);

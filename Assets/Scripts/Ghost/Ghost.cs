@@ -5,13 +5,19 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Ghost : ScriptableObject
 {
-    public bool IsRecording;
+    #region Variables
+
+    [Header("Parameters")]
+	public bool IsRecording;
     public bool IsReplaying;
     public float RecordFrequency;
 
+    [Header("Lists")]
     public List<float> TimeStamps;
     public List<Vector3> Positions;
     public List<Vector3> Rotations;
+
+    #endregion
 
     public void ResetData()
     {

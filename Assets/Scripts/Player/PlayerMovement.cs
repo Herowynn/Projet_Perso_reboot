@@ -5,23 +5,27 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement")]
+	#region variables
+
+	[Header("Movement")]
     [SerializeField] float _moveSpeed;
     public float WalkSpeed;
     public float SprintSpeed;
     public float WallRunSpeed;
     public float GroundDrag;
+	public Transform Orientation;
+	private Vector3 _moveDirection;
 
-    [Header("Jump")]
+	[Header("Jump")]
     public float JumpForce;
     public float JumpColldown;
     public float AirMultiplier;
-    bool _readyToJump;
+    private bool _readyToJump;
 
     [Header("Crouching")]
     public float CrouchSpeed;
     public float CrouchYScale;
-    float _startYScale;
+    private float _startYScale;
 
     [Header("Keybinds")]
     public KeyCode JumpKey = KeyCode.Space;
@@ -29,27 +33,29 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode CrouchKey = KeyCode.LeftControl;
 
     [Header("Ground Check")]
-    float _playerHeight;
+    private float _playerHeight;
     public LayerMask WhatIsGround;
 
     [Header("Slope Handling")]
     public float MaxSloapAngle;
-    RaycastHit _slopeHit;
-    bool _exitingSlope;
+    private RaycastHit _slopeHit;
+    private bool _exitingSlope;
 
-    public Transform Orientation;
+    [Header("Inputs")]
+    private float _horizontalInput;
+    private float _verticalInput;
 
-    float _horizontalInput;
-    float _verticalInput;
-
-    Vector3 _moveDirection;
-
+    [Header("Player References")]
     public Rigidbody Rb;
 
+    [Header("Current State")]
     public MovementState State;
-
     public bool IsWallRunning;
-    public bool IsFroze;
+    public bool IsFrozen;
+
+	#endregion
+
+	#region Default Functions
 
 	private void Awake()
 	{
@@ -67,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        MyInput();
+        InputDetection();
         SpeedControl();
         StateHandler();
 
@@ -77,17 +83,21 @@ public class PlayerMovement : MonoBehaviour
             Rb.drag = 0f;
     }
 
-    public bool Grounded()
+	private void FixedUpdate()
+	{
+		MovePlayer();
+	}
+
+	#endregion
+
+	#region My Functions
+
+	public bool Grounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, _playerHeight * .5f + .2f, WhatIsGround);
     }
 
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
-
-    void MyInput()
+    private void InputDetection()
     {
         _horizontalInput = Input.GetAxisRaw("Horizontal");
         _verticalInput = Input.GetAxisRaw("Vertical");
@@ -98,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
 
             Jump();
 
-            Invoke(nameof(ResetJump), JumpColldown);
+            StartCoroutine(ResetJump());
         }
 
         else if (Input.GetKeyDown(CrouchKey) && Grounded())
@@ -115,14 +125,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    bool CanUncrouch()
+    private bool CanUncrouch()
     {
         return !Physics.Raycast(transform.position, Vector3.up, _playerHeight * .5f + .2f);
     }
 
-    void StateHandler()
+	private void OnTriggerStay(Collider other)
+	{
+        if (other.tag == "MovingPlatform")
+            transform.SetParent(other.transform);
+	}
+
+	private void OnTriggerExit(Collider other)
+	{
+		if(other.tag == "MovingPlatform")
+            transform.SetParent(null);
+	}
+
+	private void StateHandler()
     {
-        if (IsFroze)
+        if (IsFrozen)
         {
             Rb.velocity = Vector3.zero;
             _moveSpeed = 0;
@@ -158,9 +180,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void MovePlayer()
+    private void MovePlayer()
     {
-        if (IsFroze)
+        if (IsFrozen)
             return;
 
         _moveDirection = Orientation.forward * _verticalInput + Orientation.right * _horizontalInput;
@@ -183,7 +205,7 @@ public class PlayerMovement : MonoBehaviour
             Rb.useGravity = !OnSlope();
     }
 
-    void SpeedControl()
+    private void SpeedControl()
     {
         if (OnSlope() && !_exitingSlope)
         {
@@ -203,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    void Jump()
+    private void Jump()
     {
         _exitingSlope = true;
 
@@ -212,8 +234,10 @@ public class PlayerMovement : MonoBehaviour
         Rb.AddForce(transform.up * JumpForce, ForceMode.Impulse);
     }
 
-    void ResetJump()
+    private IEnumerator ResetJump()
     {
+        yield return new WaitForSeconds(JumpColldown);
+
         _readyToJump = true;
 
         _exitingSlope = false;
@@ -234,4 +258,6 @@ public class PlayerMovement : MonoBehaviour
     {
         return Vector3.ProjectOnPlane(direction, _slopeHit.normal).normalized;
     }
+
+	#endregion
 }
